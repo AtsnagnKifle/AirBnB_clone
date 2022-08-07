@@ -24,3 +24,26 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(type(my_model.updated_at), datetime)
         self.assertTrue(type(my_model.created_at), datetime)
         self.assertEqual(my_model.created_at, my_model.updated_at)
+
+    def test_updated_time(self):
+        """
+            check if updated time is changed when new attrbutes created and the
+            save function is called.
+        """
+        my_model = BaseModel()
+        my_model.name = "ALX"
+        my_model.my_number = 89
+        my_model.save()
+        self.assertNotEqual(my_model.updated_at, my_model.created_at)
+
+    def test_str_representaion(self):
+        """
+            string representaion test.
+        """
+        my_model = BaseModel()
+        my_model.name = "ALX"
+        my_model.my_number = 89
+        self.assertEqual(str(my_model),
+                         '[{}] ({}) {}'.format(my_model.__class__.__name__,
+                                               my_model.id,
+                                               my_model.__dict__))
