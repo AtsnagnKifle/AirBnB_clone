@@ -4,6 +4,7 @@
 """
 
 import uuid
+import models
 from datetime import datetime
 
 
@@ -39,6 +40,8 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
             self.updated_at = self.created_at
+            models.storage.new(self)
+            models.storage.save()
 
     def __str__(self):
         """
@@ -50,7 +53,11 @@ class BaseModel:
         """
             update public instance attribute updated_at
         """
-        self.updated_at = datetime.now()
+        if self.updated_at is not datetime.now():
+            self.updated_at = datetime.now()
+        else:
+            models.storage.new(self.to_dict())
+        models.storage.save()
 
     def to_dict(self):
         """
